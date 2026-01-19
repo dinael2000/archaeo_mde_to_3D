@@ -30,8 +30,11 @@ def load_model():
 
     return checkpoint, image_processor, model
 
-def run_depth_estimation(rgb_dir, depth_npy_dir, depth_bw_dir, depth_colored_dir, output_dir, color_scheme="inferno"):
+def run_depth_estimation(rgb_dir, depth_npy_dir, depth_bw_dir, depth_colored_dir, color_scheme="inferno"):
     """
+    A function that batch-processes a given 
+    dataset of images, in order to produce
+    depth maps using an MDE model
     """
 
     # Loads the MDE model and image processors
@@ -75,7 +78,7 @@ def run_depth_estimation(rgb_dir, depth_npy_dir, depth_bw_dir, depth_colored_dir
 
         # Save grayscale depth map
         depth_bw = (predicted_depth - predicted_depth.min()) / (predicted_depth.max() - predicted_depth.min())
-        depth = (depth_norm.cpu().numpy() * 255).astype("uint8")
+        depth = (depth_bw.cpu().numpy() * 255).astype("uint8")
 
         bw_path = os.path.join(depth_bw_dir, root + "_depth_bw.png")
         Image.fromarray(depth).save(bw_path)
@@ -83,7 +86,7 @@ def run_depth_estimation(rgb_dir, depth_npy_dir, depth_bw_dir, depth_colored_dir
         # Save colored depth map
         colormap = plt.colormaps[color_scheme]
 
-        depth_colored = colormap(depth_norm.cpu().numpy())
+        depth_colored = colormap(depth_bw.cpu().numpy())
         depth_colored = (depth_colored[:,:,:3] * 255).astype("uint8")
 
         colored_path = os.path.join(depth_colored_dir, root + "_depth_colored.png")

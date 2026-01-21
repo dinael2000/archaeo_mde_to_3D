@@ -75,14 +75,6 @@ def process_object_merge(mesh_obv, mesh_rev, output_path, output_path_scaled, ga
     triangle edge length to compute the Z-gap between
     the obverse and reverse meshes. An arbitrary seperation
     that does not correspond to real-world object thickness.
-    0.25 -> Tight seperation
-    0.5 -> Median value
-    1.0 -> One full triangle edge
-    2.0 -> Very conservative gap
-
-    :param scale_factor: Factor by which to scale down (or up)
-    a given object, to better represent physical dimensions.
-    Recommended value <0.25
     """
     # Cleans meshes
     for mesh in (mesh_obv, mesh_rev):
@@ -221,3 +213,4 @@ if __name__ == "__main__":
     output_dir = r"3_3D_Model_Creation/3d_models_merged_19122025"
 
     batch_process_merge(input_dir, output_dir, gap_factor=0.0, scale=True, scale_factor=0.25)
+

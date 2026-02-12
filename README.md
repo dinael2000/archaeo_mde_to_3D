@@ -15,7 +15,7 @@ Carried out as part of the M.A. Program on <i> <a href="https://dca.uni-koeln.de
 Student: Konstantina Eleftheriadi <br>
 Supervisor: Prof. Dr. Eleftheria Paliou <br>
 
-Referenced literature and especially resources that were used while developing the pipeline are included in the <a href="https://github.com/dinael2000/MDE_to_3D/blob/main/citations.txt">Citations File</a>
+Referenced literature and especially resources that were used while developing the pipeline are included in the <a href="https://github.com/dinael2000/archaeo_mde_to_3D/blob/main/citations.txt">Citations File</a>
 
 ---
 
@@ -30,7 +30,7 @@ It is recommended that you run the code on a <i>virtual environment</i> running
 </p>
 
 👉 For quicker deployment, a 
-<b><a href="https://colab.research.google.com/github/dinael2000/MDE_to_3D/blob/main/run_pipeline/full_workflow_colab.ipynb">Google Colab Notebook</b></a> 
+<b><a href="https://colab.research.google.com/github/dinael2000/archaeo_mde_to_3D/blob/main/run_pipeline/full_workflow_colab.ipynb">Google Colab Notebook</b></a> 
 has also been created. 
 Please follow the instructions carefully. <br> <br>
 TBD: 
@@ -39,7 +39,7 @@ TBD:
 ---
 
 ## Project Poster
-<img src="https://github.com/dinael2000/MDE_to_3D/blob/main/assets/project_poster.jpg">
+<img src="https://github.com/dinael2000/archaeo_mde_to_3D/blob/main/assets/project_poster.jpg">
 
 <b> This scientific work was supported by the Onassis Foundation <br>
 Scholarship ID: F ΖT 020-1/2023-2024.</b>

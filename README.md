@@ -14,6 +14,7 @@ Carried out as part of the M.A. Program on <i> <a href="https://dca.uni-koeln.de
 
 Student: Konstantina Eleftheriadi <br>
 Supervisor: Prof. Dr. Eleftheria Paliou <br>
+Contact: kelefthe@smail.uni-koeln.de <br>
 
 Referenced literature and especially resources that were used while developing the pipeline are included in the <a href="https://github.com/dinael2000/archaeo_mde_to_3D/blob/main/citations.txt">Citations File</a>
 

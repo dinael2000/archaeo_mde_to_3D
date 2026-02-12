@@ -25,7 +25,7 @@ Referenced literature and especially resources that were used while developing t
 The full 2D-to-3D pipeline can be ran locally, by cloning the repository to a local device. <br>
 <p align="center"> 
   ❗ Deprecated libraries may cause conflicts with updated versions of Python. <br>
-It is recommended that you run the code on a <i>virtual environment</i> running 
+It is recommended that you run the code in a <i>virtual environment</i> running 
   <b> <a href="https://www.python.org/downloads/release/python-31210/">Python v.3.12.10</a>
   </b> ❗ 
 </p>

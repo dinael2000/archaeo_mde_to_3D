@@ -14,7 +14,6 @@ if __name__ == '__main__':
 
     save_vis_dir = r"2_Depth_Map_Evaluation/depth_visualizations"
     save_pred_dir = r"2_Depth_Map_Evaluation/results_depth_maps"
-    detail_out_dir = r"2_Depth_Map_Evaluation/detail_metrics"
 
     save_diagnostics_dir = None
     save_diagnostics_dir_post = r'2_Depth_Map_Evaluation/diagnostics_post_alignment'
@@ -29,11 +28,11 @@ if __name__ == '__main__':
                                                          model_name="DA1", 
                                                          save_vis_dir=save_vis_dir, 
                                                          save_pred_dir=save_pred_dir, 
-                                                         detail_out_dir=detail_out_dir, 
                                                          save_diagnostics_dir=save_diagnostics_dir,
                                                          save_diagnostics_dir_post=save_diagnostics_dir_post,
                                                          debug_dir=debug_dir)
 
 end = time.time()
+
 
 print(f"Script took: {end-start}")

@@ -106,7 +106,6 @@ def evaluate_dataset(
     visualize=False,
     save_vis_dir=None,
     save_pred_dir=None,
-    detail_out_dir=None,
     save_diagnostics_dir=None,
     save_diagnostics_dir_post=None,
     debug_dir = None
@@ -127,8 +126,6 @@ def evaluate_dataset(
 
     :param save_vis_dir: Path to directory where vis. will be saved
     :param save_pred_dir: Path where analysis results will be saved
-
-    :param detail_out_dir: Path where detail metrics will be saved
 
     :param save_diagnostics_dir: Path where diagnostics debug will be saved
     :param save_diagnostics_dir_post: Path where diagnostics debug will be saved
@@ -155,9 +152,6 @@ def evaluate_dataset(
     else:
         normal_dir = None
 
-    diagnostics_dir      = None
-    diagnostics_dir_post = None
-
     if save_diagnostics_dir is not None:
         diagnostics_dir = Path(save_diagnostics_dir)
         diagnostics_dir.mkdir(parents=True, exist_ok=True)
@@ -165,10 +159,6 @@ def evaluate_dataset(
     if save_diagnostics_dir_post is not None:
         diagnostics_dir_post = Path(save_diagnostics_dir_post)
         diagnostics_dir_post.mkdir(parents=True, exist_ok=True)
-
-    if detail_out_dir is not None:
-        detail_out_dir = Path(detail_out_dir)
-        detail_out_dir.mkdir(parents=True, exist_ok=True)
 
     if visualize and save_vis_dir:
         save_vis_dir = Path(save_vis_dir)
@@ -262,17 +252,6 @@ def evaluate_dataset(
             title=f"Alignment Debug: {stem}"
         )
 
-        # Initializes and saves per-region detail metrics
-        # and creates relevant heat maps
-        if detail_out_dir is not None:
-            compute_detail_metrics(
-                gt=gt,
-                pred=pred_aligned,
-                mask=mask_relief,
-                pred_name=stem,
-                out_dir=detail_out_dir,
-            )
-
         # Initializes and saves normal maps
         if normal_dir is not None:
             normal_map = compute_normals(pred_aligned)
@@ -363,4 +342,5 @@ def evaluate_dataset(
         )
 
     print("\nDone!")
+
     return df, pred_depth_dict

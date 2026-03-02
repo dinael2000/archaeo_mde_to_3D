@@ -32,6 +32,8 @@ def load_model():
 
 def run_depth_estimation(rgb_dir, depth_npy_dir, depth_bw_dir, depth_colored_dir, output_dir, color_scheme="inferno"):
     """
+    A function to batch-deploy the depth estimation
+    algorithm.
     """
 
     # Loads the MDE model and image processors
@@ -101,5 +103,6 @@ if __name__ == "__main__":
     depth_colored_dir = "depth_colored"
 
     color_scheme = "inferno"
+
 
     run_depth_estimation(rgb_dir=rgb_dir, depth_npy_dir=depth_npy_dir, depth_bw_dir=depth_bw_dir, depth_colored_dir=depth_colored_dir, color_scheme=color_scheme)

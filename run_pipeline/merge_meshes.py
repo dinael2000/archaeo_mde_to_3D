@@ -163,7 +163,7 @@ def process_object_merge(mesh_obv, mesh_rev, output_path, output_path_scaled, ga
 
         o3d.io.write_triangle_mesh(output_path_scaled, final_mesh)
 
-def batch_process_merge(input_dir, output_dir, output_format, gap_factor=0.5, scale=True, scale_factor=0.25):
+def batch_process_merge(input_dir, output_dir, output_format="obj", gap_factor=0.5, scale=True, scale_factor=0.25):
     """
     Batch processes meshes
     """
@@ -196,11 +196,11 @@ def batch_process_merge(input_dir, output_dir, output_format, gap_factor=0.5, sc
         mesh_rev = o3d.io.read_triangle_mesh(rev_path)
 
         output_path_merged = os.path.join(
-            output_dir, f"{stem}-merged.", output_format
+            output_dir, f"{stem}-merged.{output_format}"
         )
 
         output_path_scaled = os.path.join(
-            output_dir, f"{stem}-merged.", output_format
+            output_dir, f"{stem}-scaled-merged.{output_format}"
         )
         
         process_object_merge(
@@ -213,5 +213,6 @@ if __name__ == "__main__":
     output_dir = r"3_3D_Model_Creation/3d_models_merged_19122025"
 
     batch_process_merge(input_dir, output_dir, gap_factor=0.0, scale=True, scale_factor=0.25)
+
 
 

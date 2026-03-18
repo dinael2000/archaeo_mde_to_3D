@@ -1,4 +1,4 @@
-# 🤖 Leveraging Monocular Depth Estimation for the rapid 3D Digitization of Cultural Heritage Artefacts 🤖 
+# 🤖 Leveraging Monocular Depth Estimation for the 3D Digitization of Cultural Heritage Artefacts 🤖 
 
 ## Project Overview
 
@@ -6,8 +6,8 @@ The present project provides a full pipeline for the production of 3D models of 
 
 It is being developed as part of an ongoing Master Thesis on: 
 <p align="center">
-  <b> Utilizing Monocular Depth Estimation (MDE) Models for the Digitization of Cultural Heritage Objects.<br>
-  <i>Leveraging deep learning-based MDE for the rapid production of 3D models of archaeological artefacts that carry micro-reliefs.</i> </b>
+  <b> Leveraging Monocular Depth Estimation for the 3D Digitization of Cultural Heritage Artefacts <br>
+  <i>Utilizing deep learning-based Monocular Depth Estimation for the rapid production of 3D models of archaeological artefacts that carry micro-reliefs.</i> </b>
 </p>
 
 Carried out as part of the M.A. Program on <i> <a href="https://dca.uni-koeln.de/">Digital and Computational Archaeology </a></i> at the Universität zu Köln.

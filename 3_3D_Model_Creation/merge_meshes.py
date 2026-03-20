@@ -1,5 +1,6 @@
 import os
 import pymeshfix
+import re
 
 import open3d as o3d
 import numpy as np
@@ -74,14 +75,6 @@ def process_object_merge(mesh_obv, mesh_rev, output_path, output_path_scaled, ga
     triangle edge length to compute the Z-gap between
     the obverse and reverse meshes. An arbitrary seperation
     that does not correspond to real-world object thickness.
-    0.25 -> Tight seperation
-    0.5 -> Median value
-    1.0 -> One full triangle edge
-    2.0 -> Very conservative gap
-
-    :param scale_factor: Factor by which to scale down (or up)
-    a given object, to better represent physical dimensions.
-    Recommended value <0.25
     """
     # Cleans meshes
     for mesh in (mesh_obv, mesh_rev):
@@ -170,7 +163,7 @@ def process_object_merge(mesh_obv, mesh_rev, output_path, output_path_scaled, ga
 
         o3d.io.write_triangle_mesh(output_path_scaled, final_mesh)
 
-def batch_process_merge(input_dir, output_dir, gap_factor=0.5, scale=True, scale_factor=0.25):
+def batch_process_merge(input_dir, output_dir, output_format="obj", gap_factor=0.5, scale=True, scale_factor=0.25):
     """
     Batch processes meshes
     """
@@ -178,11 +171,17 @@ def batch_process_merge(input_dir, output_dir, gap_factor=0.5, scale=True, scale
     os.makedirs(output_dir, exist_ok=True)
 
     files = os.listdir(input_dir)
-    obv_files = [f for f in files if f.endswith("-obv.obj")]
+    obv_files = [f for f in files if "obv" in f.lower()]
 
     for obv_file in obv_files:
-        stem = obv_file.replace("-obv.obj", "")
-        rev_file = f"{stem}-rev.obj"
+        substring = "obv"
+        stem = obv_file.lower().split(substring)[0]
+        print(stem)
+        rev_file = next((f for f in files if re.search(rf"^{re.escape(stem)}rev.*\.obj$", f.lower())), None)
+        print(rev_file)
+        if rev_file is None:
+          print(f"Missing reverse mesh for {stem}. Skipping object.")
+          continue
 
         obv_path = os.path.join(input_dir, obv_file)
         rev_path = os.path.join(input_dir, rev_file)
@@ -197,11 +196,11 @@ def batch_process_merge(input_dir, output_dir, gap_factor=0.5, scale=True, scale
         mesh_rev = o3d.io.read_triangle_mesh(rev_path)
 
         output_path_merged = os.path.join(
-            output_dir, f"{stem}-merged.obj"
+            output_dir, f"{stem}-merged.{output_format}"
         )
 
         output_path_scaled = os.path.join(
-            output_dir, f"{stem}-merged_scaled.obj"
+            output_dir, f"{stem}-scaled-merged.{output_format}"
         )
         
         process_object_merge(
@@ -214,3 +213,5 @@ if __name__ == "__main__":
     output_dir = r"3_3D_Model_Creation/3d_models_merged_19122025"
 
     batch_process_merge(input_dir, output_dir, gap_factor=0.0, scale=True, scale_factor=0.25)
+
+

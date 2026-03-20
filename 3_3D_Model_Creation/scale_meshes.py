@@ -3,6 +3,10 @@ import os
 import open3d as o3d
 
 def scale_models(mesh, scale_factor, output_path_scaled):
+    """
+    A function that scales a provided model
+    using built-in functions from the Open3D library
+    """
 
     mesh.scale(scale_factor, center=mesh.get_center())
     mesh.orient_triangles()
@@ -33,5 +37,6 @@ if __name__ == "__main__":
     input_dir = r"3_3D_Model_Creation/3d_models_merged_19122025"
     output_dir = r"3_3D_Model_Creation/3d_models_merged_scaled_21122025"
     scale_factor = 0.02
+
 
     batch_scale_models(input_dir, output_dir, scale_factor)

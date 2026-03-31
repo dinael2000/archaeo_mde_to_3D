@@ -19,24 +19,15 @@ from detail_metrics import *
 
 def preprocess_pred_depth(pred_raw, gt_shape):
     """
+    A function that fixes the elliptical distortion of generated depth maps
+    by enforcing a square aspect ratio before alignment.
     Fixes DepthAnything-V1 elliptical distortion by enforcing a square aspect ratio
     BEFORE alignment.
-
-    Steps:
-    1) Determine square target size from GT (H_g).
-    2) Center-square crop the prediction (removes excess borders WITHOUT padding).
-    3) Resize cropped prediction to (H_g, H_g) using INTER_LINEAR.
-    
-    This guarantees:
-    • no padding introduced,
-    • prediction and GT share square geometry,
-    • radius estimation becomes stable,
-    • spatial alignment no longer produces inner shrinking.
     """
 
-    H_g, W_g = gt_shape     # GT is always square for your coins
+    H_g, W_g = gt_shape
 
-    # --- Step 1: center-square crop the possibly oblong prediction ---
+    # Crops oblong prediction
     H_p, W_p = pred_raw.shape
     s = min(H_p, W_p)
 
@@ -44,7 +35,7 @@ def preprocess_pred_depth(pred_raw, gt_shape):
     x0 = (W_p - s) // 2
     pred_sq = pred_raw[y0:y0+s, x0:x0+s]
 
-    # --- Step 2: resize to match GT coordinate system (square) ---
+    # Resized to match GT coordinate system
     pred_fixed = cv2.resize(
         pred_sq.astype(np.float32),
         (H_g, H_g),
@@ -160,32 +151,6 @@ def fit_circle_from_mask(mask):
 ## Detecting Rim ## 
 ###################
 
-def estimate_radius_from_gradient(depth, percentile=92):
-    """Estimate coin radius using gradient magnitude instead of contours."""
-    # Compute gradient magnitude
-    gx = cv2.Sobel(depth, cv2.CV_32F, 1, 0, ksize=5)
-    gy = cv2.Sobel(depth, cv2.CV_32F, 0, 1, ksize=5)
-    mag = np.sqrt(gx*gx + gy*gy)
-
-    # Threshold strongest gradients → circle rim
-    thr = np.percentile(mag, percentile)
-    mask = mag >= thr
-
-    ys, xs = np.where(mask)
-    if len(xs) < 20:
-        H, W = depth.shape
-        return (W/2, H/2, min(W,H)/2)
-
-    # Fit circle from mask
-    A = np.column_stack([xs, ys, np.ones_like(xs)])
-    b = -(xs**2 + ys**2)
-    c, *_ = np.linalg.lstsq(A, b, rcond=None)
-
-    cx = -c[0] / 2
-    cy = -c[1] / 2
-    R  = np.sqrt((c[0]**2 + c[1]**2)/4 - c[2])
-
-    return cx, cy, R
 
 def detect_rim_lap(depth, ksize=3, rim_percentile=90):
     """
@@ -223,29 +188,6 @@ def detect_rim_lap(depth, ksize=3, rim_percentile=90):
 ## Scale-Shift Alignment ##
 ###########################
 
-def spatial_align_scale(pred, gt):
-    """Match predicted coin radius to GT radius using gradient-based radius estimation."""
-    cx_g, cy_g, R_g = estimate_radius_from_gradient(gt)
-    cx_p, cy_p, R_p = estimate_radius_from_gradient(pred)
-
-    if R_p < 1e-6:
-        return pred
-
-    scale = R_g / R_p
-
-    tx = cx_g - scale * cx_p
-    ty = cy_g - scale * cy_p
-
-    H, W = gt.shape
-    M = np.array([[scale, 0, tx],
-                  [0, scale, ty]], np.float32)
-
-    pred_scaled = cv2.warpAffine(pred.astype(np.float32), M, (W, H),
-                                 flags=cv2.INTER_LINEAR,
-                                 borderMode=cv2.BORDER_CONSTANT,
-                                 borderValue=0)
-
-    return pred_scaled
 
 def align_scale_shift_lowfreq(pred, gt, mask, sigma=25):
     """
@@ -355,40 +297,3 @@ def spatial_align_radius(pred, gt):
     )
 
     return pred_warp, (cx_p, cy_p, R_p), (cx_g, cy_g, R_g), scale_xy, M
-
-def spatial_align_center(pred, gt):
-    """
-    Minimal spatial alignment: aligns centers of mass (max-depth point)
-    between prediction and GT.
-
-    • Does NOT use contours
-    • Does NOT depend on object shape
-    • Reproduces the "good-enough" alignment the old rim-fit gave
-    """
-
-    H_g, W_g = gt.shape
-
-    # Resize pred to GT coords (only resizing!)
-    pred_resized = cv2.resize(pred.astype(np.float32), (W_g, H_g), interpolation=cv2.INTER_LINEAR)
-
-    pred_resized = pred
-
-    # --- center of mass proxy: brightest relief point ---
-    py, px = np.unravel_index(np.argmax(pred_resized), pred_resized.shape)
-    gy, gx = np.unravel_index(np.argmax(gt), gt.shape)
-
-    # Translation needed
-    tx = gx - px
-    ty = gy - py
-
-    M = np.array([
-        [1, 0, tx],
-        [0, 1, ty]
-    ], dtype=np.float32)
-
-    pred_warp = cv2.warpAffine(pred_resized, M, (W_g, H_g),
-                               flags=cv2.INTER_LINEAR,
-                               borderMode=cv2.BORDER_CONSTANT,
-                               borderValue=0)
-
-    return pred_warp, M

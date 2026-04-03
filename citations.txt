@@ -65,7 +65,7 @@ Yang, Zhiyuan, et al. "HDF-Teacher: High-Frequency Depth Distillation from Depth
 
 Kazhdan, Michael, Matthew Bolitho and Hugues Hoppe. "Poisson Surface Reconstruction". SGP '06: Proceedings of the fourth Eurgraphics Symposium on Geometry Processing. 2006. 61-70.
 
-Lee, Ahyun. "Geometry and Topology Correction of 3D Building Models with Gragmented and Disconnected Components." International Journal of Geo-Information 14 (2025). 198.
+Lee, Ahyun. "Geometry and Topology Correction of 3D Building Models with Fragmented and Disconnected Components." International Journal of Geo-Information 14 (2025). 198.
 
 Poux, Florent. "DepthAnything v2 Tutorial: How to Convert 2D Images to 3D Models with Python." Medium. May 18, 2025. https://medium.com/data-science-collective/depthanything-v2-tutorial-how-to-convert-2d-images-to-3d-models-with-python-2708d295b7e5 (accessed September 19, 2025).
 

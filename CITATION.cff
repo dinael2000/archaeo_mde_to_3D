@@ -1,0 +1,34 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: >-
+  Leveraging Monocular Depth Estimation for the 3D
+  Digitization of Cultural Heritage Artefacts 
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Konstantina
+    family-names: Eleftheriadi
+    email: kelefthe@smail.uni-koeln.de
+    affiliation: Universität zu Köln
+    orcid: 'https://orcid.org/0009-0009-0606-0382'
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.19453100
+repository-code: 'https://github.com/dinael2000/archaeo_mde_to_3D'
+url: 'https://github.com/dinael2000/archaeo_mde_to_3D'
+abstract: >-
+  The present project provides a full pipeline for the
+  production of 3D models of coin-like objects, starting
+  from a single image as input.
+keywords:
+  - mde
+  - archaeology
+  - cultural heritage
+  - 3d modeling
+license: MIT
+version: v.1.0.0
+date-released: '2026-04-07'

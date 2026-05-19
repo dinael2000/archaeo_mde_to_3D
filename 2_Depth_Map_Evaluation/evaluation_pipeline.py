@@ -153,12 +153,12 @@ def evaluate_dataset(
         normal_dir = None
 
     if save_diagnostics_dir is not None:
-        diagnostics_dir = Path(save_diagnostics_dir)
-        diagnostics_dir.mkdir(parents=True, exist_ok=True)
+        save_diagnostics_dir = Path(save_diagnostics_dir)
+        save_diagnostics_dir.mkdir(parents=True, exist_ok=True)
 
     if save_diagnostics_dir_post is not None:
-        diagnostics_dir_post = Path(save_diagnostics_dir_post)
-        diagnostics_dir_post.mkdir(parents=True, exist_ok=True)
+        save_diagnostics_dir_post = Path(save_diagnostics_dir_post)
+        save_diagnostics_dir_post.mkdir(parents=True, exist_ok=True)
 
     if visualize and save_vis_dir:
         save_vis_dir = Path(save_vis_dir)
@@ -221,9 +221,9 @@ def evaluate_dataset(
         pred_fixed, corr_used, flipped = flip_depth(gt, pred_geo, mask_valid)
 
         # Initializes and saves diagnostics
-        if diagnostics_dir is not None:
+        if save_diagnostics_dir is not None:
             alignment_diagnostics(gt, pred_fixed, mask_valid,
-                                  diagnostics_dir, image_name=stem)
+                                  save_diagnostics_dir, image_name=stem)
 
         # Initializes scale and shift alignment
         pred_aligned = align_scale_shift_lowfreq(pred_fixed, gt, mask_valid)
@@ -232,9 +232,9 @@ def evaluate_dataset(
         mask_metrics = build_valid_mask(gt, pred_aligned)
 
         # Initializes and saves diagnostics post-alignment
-        if diagnostics_dir_post is not None:
+        if save_diagnostics_dir_post is not None:
             alignment_diagnostics(gt, pred_aligned, mask_metrics,
-                                  diagnostics_dir_post, image_name=stem)
+                                  save_diagnostics_dir_post, image_name=stem)
             
         # Updates pred depth dictionary
         pred_depth_dict[rgb_path.name] = (rgb, pred_aligned)

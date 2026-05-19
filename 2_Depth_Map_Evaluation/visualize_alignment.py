@@ -35,7 +35,7 @@ def colorize_error_map(err):
     err = np.clip(err,0,1)
     return cv2.applyColorMap((err*255).astype(np.uint8), cv2.COLORMAP_JET)
 
-def to_vis(img, is_depth=True):
+def to_vis(img, target_size, is_depth=True):
     """
     A function that ensures that a given
     depth map / image is normalized
@@ -47,7 +47,7 @@ def to_vis(img, is_depth=True):
         img = img.astype(np.uint8)
     if img.ndim == 2:
         img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
-    return cv2.resize(img, (W_g, H_g), interpolation=cv2.INTER_NEAREST)
+    return cv2.resize(img, target_size, interpolation=cv2.INTER_NEAREST)
 
 def create_label(img, text):
     """
@@ -69,32 +69,38 @@ def visualize_alignment_steps(pred_raw, pred_geo, pred_fixed, pred_aligned, gt, 
     debug that ensures correct alignment between the two.
     """
     H_g, W_g = gt.shape
+    target_size = (W_g, H_g)
 
     # Ensure that given depth maps
     # are normalized
-    raw_vis = to_vis(pred_raw)
-    geo_vis = to_vis(pred_geo)
-    fixed_vis = to_vis(pred_fixed)
-    aligned_vis = to_vis(pred_aligned)
-    gt_vis = to_vis(gt)
+    raw_vis = to_vis(pred_raw, target_size)
+    geo_vis = to_vis(pred_geo, target_size)
+    fixed_vis = to_vis(pred_fixed, target_size)
+    aligned_vis = to_vis(pred_aligned, target_size)
+    gt_vis = to_vis(gt, target_size)
 
     # Colorize depth maps 
     # for visualization
     raw_err = to_vis(colorize_error_map(
                          np.abs(cv2.resize(pred_raw.astype(np.float32),(W_g,H_g)) - gt)),
+                         target_size,
                          is_depth=False)
-    geo_errv = to_vis(colorize_error_map(
+    geo_err = to_vis(colorize_error_map(
                          np.abs(cv2.resize(pred_geo.astype(np.float32),(W_g,H_g)) - gt)),
+                         target_size,
                          is_depth=False)
     fixed_err = to_vis(colorize_error_map(
                          np.abs(cv2.resize(pred_fixed.astype(np.float32),(W_g,H_g)) - gt)),
+                         target_size,
                          is_depth=False)
     aligned_err = to_vis(colorize_error_map(
                          np.abs(cv2.resize(pred_aligned.astype(np.float32),(W_g,H_g)) - gt)),
+                         target_size,
                          is_depth=False)
 
     zero_err = to_vis(colorize_error_map(np.zeros((H_g,W_g), np.float32)),
-                         is_depth=False)
+                      target_size,
+                      is_depth=False)
 
     # Create debug plot
     # with appropriate labeling

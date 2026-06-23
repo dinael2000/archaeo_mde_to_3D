@@ -7,7 +7,7 @@ The present project provides a full pipeline for the production of 3D models of 
 It is being developed as part of an ongoing Master Thesis on: 
 <p align="center">
   <b> Leveraging Monocular Depth Estimation for the 3D Digitization of Cultural Heritage Artifacts <br>
-  <i>Utilizing deep learning-based Monocular Depth Estimation for the rapid production of 3D models of archaeological artifacts that carry micro-reliefs.</i> </b>
+  <i>Utilizing deep learning-based Monocular Depth Estimation for the rapid production of 3D models of artifacts that carry micro-reliefs.</i> </b>
 </p>
 
 Carried out as part of the M.A. Program on <i> <a href="https://dca.uni-koeln.de/">Digital and Computational Archaeology </a></i> at the Universität zu Köln.

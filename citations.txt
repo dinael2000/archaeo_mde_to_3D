@@ -24,7 +24,6 @@ Ke, B., Obukhov, A., Huang, S., Metzger, N., Duadt, R. C., & Schindler, K. (2024
 
 Ke, B., Qu, K., Wang, T., Metzger, N., Huang, S., Li, B., . . . Schindler, K. (2025). "Marigold: Affordable Adaptation of Diffusion-Based Image Generators for Image Analysis". arXiv. doi:10.48550/arXiv.2505.09358
 
-
 Zhang, Z., Zhang, Y., Li, Y., & Wu, L. (2025B). Review of monocular depth estimation methods. Journal of Electronic Imaging, 34(2), 020901.
 
 

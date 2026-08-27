@@ -1,0 +1,5 @@
+To change your colab runtime:
+1. Navitage to the "Runtime" pane
+2. Select the "Change runtime type" tab
+3. Open the "Runtime version" drop down menu
+4. Select a past version, e.g. 04.2026
